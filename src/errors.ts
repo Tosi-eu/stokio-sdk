@@ -1,7 +1,3 @@
-/**
- * Erros canónicos StoKIO / Porto — formato partilhado entre browser, Node e ingestão na API.
- */
-
 export type ErrorSource =
   | "backend_http"
   | "temporal"
@@ -76,7 +72,6 @@ function toHex16(n: bigint): string {
   return n.toString(16).padStart(16, "0").slice(0, 16);
 }
 
-/** 40 hex chars — determinístico em qualquer runtime (sem crypto nativo). */
 export function fingerprintError(parts: {
   source: ErrorSource;
   code: string | null;
@@ -102,7 +97,6 @@ function firstStackLine(stack: string | null | undefined): string {
   return line.slice(0, 300);
 }
 
-/** Erro de domínio com metadados para telemetria e UI. */
 export class StokioError extends Error {
   readonly code: string;
   readonly category: ErrorCategory;

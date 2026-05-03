@@ -1,52 +1,52 @@
-# @porto-sdk/sdk
+# @stokio/sdk
 
-Tipos e entidades compartilhados do sistema Porto (estoque, medicamentos, residentes, movimentações). Use no backend e no frontend para manter uma única fonte de verdade.
+Shared TypeScript types and entities for **Stokio** (stock, medicines, residents, movements, canonical errors, and related contracts). Use the same package in backend and frontend to keep a single source of truth.
 
-## Instalação
+## Install
 
-**A partir do npm** (repositório publicado na org `porto-sdk`):
+From the public npm registry:
 
 ```bash
-npm install @porto-sdk/sdk
-# ou
-pnpm add @porto-sdk/sdk
+npm install @stokio/sdk
+# or
+pnpm add @stokio/sdk
 ```
 
-O `backend` e o `frontend` do monorepo usam **`"@porto-sdk/sdk": "^0.1.0"`** — o pacote é obtido do registry (não é necessário ter a pasta `sdk` ao lado do app). Isto permite CI em repositórios só-frontend ou só-backend.
+In a monorepo, apps can depend on a version range from the registry so CI can run in frontend-only or backend-only checkouts without a local `sdk` folder.
 
-## Desenvolver o SDK localmente (sem publicar)
+## Local development (without publishing)
 
-Na pasta `sdk`, depois de alterar código:
+After changing the SDK, build and link from the `sdk` directory:
 
 ```bash
 cd sdk && npm run build && npm link
-cd ../frontend && npm link @porto-sdk/sdk
-# ou com pnpm: pnpm link --global (conforme doc) ou pnpm add @porto-sdk/sdk@file:../sdk
+cd ../frontend && npm link @stokio/sdk
+# or, with pnpm: pnpm add @stokio/sdk@../sdk
 ```
 
-Alternativa temporária no `package.json` do app:
+As a temporary override in an app `package.json`:
 
 ```json
-"@porto-sdk/sdk": "file:../sdk"
+"@stokio/sdk": "file:../sdk"
 ```
 
-## Publicar no npm
+## Publishing to npm
 
-1. Cria a organização **porto-sdk** em [npmjs.com](https://www.npmjs.com/org/create) (o scope será `@porto-sdk`).
-2. Confirma que estás autenticado: `npm login` / `npm whoami`.
-3. Na pasta `sdk`:
+1. Create or join the npm organization that owns the `@stokio` scope (see [npm orgs](https://www.npmjs.com/org/create)) and ensure you are logged in (`npm login` / `npm whoami`).
+2. From the `sdk` folder:
 
 ```bash
 npm run build
 npm publish --access public
 ```
 
-O `package.json` já inclui `"publishConfig": { "access": "public" }` e `prepublishOnly` corre o build.
+`package.json` already sets `"publishConfig": { "access": "public" }` and `prepublishOnly` runs the build.
 
-## Uso
+## Usage
 
 ```ts
-import type { PublicTenantListItem, TenantConfigResponse } from "@porto-sdk/sdk";
+import type { PublicTenantListItem, TenantConfigResponse } from "@stokio/sdk";
+import { toCanonicalError } from "@stokio/sdk";
 ```
 
-Contratos multi-tenant (login, branding) na documentação do produto Porto.
+Multi-tenant contracts (login, branding) are documented in the Stokio product docs.
