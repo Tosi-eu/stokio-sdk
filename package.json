@@ -1,7 +1,7 @@
 {
-  "name": "@porto-sdk/sdk",
-  "version": "0.1.4",
-  "description": "Tipos e entidades compartilhados do sistema Porto (estoque, medicamentos, residentes, movimentações)",
+  "name": "@stokio-sdk/sdk",
+  "version": "0.2.0",
+  "description": "Tipos e entidades compartilhados do sistema Stokio (estoque, medicamentos, residentes, movimentações)",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
@@ -24,7 +24,7 @@
     "access": "public"
   },
   "keywords": [
-    "porto",
+    "stokio",
     "sdk",
     "types",
     "estoque",
@@ -32,6 +32,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
+    "@types/node": "^20.14.0",
     "typescript": "~5.3.0"
   }
 }
