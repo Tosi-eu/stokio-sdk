@@ -7,7 +7,7 @@ export interface NotificationListItem {
 }
 
 export interface NotificationsResponse {
-  items?: NotificationListItem[];
-  total?: number;
-  hasNext?: boolean;
+  items: NotificationListItem[];
+  total: number;
+  hasNext: boolean;
 }

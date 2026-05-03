@@ -1,4 +1,13 @@
-import type { UserPermissions } from "../entities/user.js";
+import type { UserPermissions, LoginTenantSummary } from "../entities/user.js";
+
+export type LoginTenantsForEmailResponse = {
+  tenants?: Partial<LoginTenantSummary>[];
+};
+
+export type ResolveTenantByLoginResponse = {
+  slug?: string;
+  tenants?: Partial<LoginTenantSummary>[];
+};
 
 export type CurrentUserResponse = {
   id?: number;
