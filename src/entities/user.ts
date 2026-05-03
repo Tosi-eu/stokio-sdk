@@ -27,4 +27,6 @@ export interface LoginCreateWithTenant extends Login {
 export interface LoginTenantSummary {
   slug: string;
   label: string;
+  tenantName?: string;
+  brandName?: string | null;
 }
