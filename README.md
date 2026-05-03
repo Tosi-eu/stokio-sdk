@@ -2,6 +2,8 @@
 
 Shared TypeScript types and entities for **Stokio** (stock, medicines, residents, movements, canonical errors, and related contracts). Use the same package in backend and frontend to keep a single source of truth.
 
+The published `dist/` is **CommonJS** (`require`) so Node (Nest, Temporal worker, scripts) resolves subpaths correctly; bundlers (Next.js, Vite) consume it without extra configuration.
+
 ## Install
 
 From the public npm registry:
@@ -11,36 +13,6 @@ npm install @stokio/sdk
 # or
 pnpm add @stokio/sdk
 ```
-
-In a monorepo, apps can depend on a version range from the registry so CI can run in frontend-only or backend-only checkouts without a local `sdk` folder.
-
-## Local development (without publishing)
-
-After changing the SDK, build and link from the `sdk` directory:
-
-```bash
-cd sdk && npm run build && npm link
-cd ../frontend && npm link @stokio/sdk
-# or, with pnpm: pnpm add @stokio/sdk@../sdk
-```
-
-As a temporary override in an app `package.json`:
-
-```json
-"@stokio/sdk": "file:../sdk"
-```
-
-## Publishing to npm
-
-1. Create or join the npm organization that owns the `@stokio` scope (see [npm orgs](https://www.npmjs.com/org/create)) and ensure you are logged in (`npm login` / `npm whoami`).
-2. From the `sdk` folder:
-
-```bash
-npm run build
-npm publish --access public
-```
-
-`package.json` already sets `"publishConfig": { "access": "public" }` and `prepublishOnly` runs the build.
 
 ## Usage
 

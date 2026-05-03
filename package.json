@@ -1,6 +1,6 @@
 {
   "name": "@stokio/sdk",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Shared TypeScript types and entities for Stokio (inventory, medicines, residents, movements).",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
