@@ -30,7 +30,6 @@ export type HttpRequestInit = {
   responseType?: "json" | "blob" | "text";
   signal?: AbortSignal;
   credentials?: RequestCredentials;
-  /** GET JSON: em resposta !ok devolve null em vez de invocar onHttpError (ex.: branding público). */
   treatNotOkAsNull?: boolean;
 };
 
@@ -192,9 +191,6 @@ export class StokioHttp {
     return this.request<T>("GET", path, init);
   }
 
-  /**
-   * GET JSON sem lançar em !ok — não invoca onHttpError (fluxos login / resolve-tenant).
-   */
   async getAllowingNonOk<T>(
     path: string,
     init?: Omit<HttpRequestInit, "body">,
