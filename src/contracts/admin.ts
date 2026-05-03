@@ -70,6 +70,22 @@ export type AdminDataQualitySummary = {
 
 export type AdminSystemConfig = Record<string, string>;
 
+export type AdminScheduledBackupConfig = {
+  enabled: boolean;
+  cronExpression: string;
+  timezone: string;
+};
+
+export type AdminConfigApiResponse = {
+  display: AdminSystemConfig;
+  system: { scheduledBackup: AdminScheduledBackupConfig } | null;
+};
+
+export type AdminConfigPutBody = {
+  display?: AdminSystemConfig;
+  system?: { scheduledBackup?: AdminScheduledBackupConfig };
+};
+
 export type AdminTenant = {
   id: number;
   slug: string;

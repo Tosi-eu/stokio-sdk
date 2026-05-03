@@ -10,7 +10,8 @@ import type {
   AdminMetricsResponse,
   AdminMovementsThisMonthResponse,
   AdminNotificationsResponse,
-  AdminSystemConfig,
+  AdminConfigApiResponse,
+  AdminConfigPutBody,
   AdminTenant,
   AdminTenantsResponse,
   CreateAdminUserPayload,
@@ -753,9 +754,9 @@ export function buildStokioApi(http: StokioHttp) {
       },
 
       config: {
-        get: () => http.get<AdminSystemConfig>("/admin/config"),
-        update: (config: AdminSystemConfig) =>
-          http.put<AdminSystemConfig>("/admin/config", config),
+        get: () => http.get<AdminConfigApiResponse>("/admin/config"),
+        update: (body: AdminConfigPutBody) =>
+          http.put<AdminConfigApiResponse>("/admin/config", body),
       },
 
       tenants: {
