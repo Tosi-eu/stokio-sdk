@@ -49,4 +49,14 @@ import type { PublicTenantListItem, TenantConfigResponse } from "@stokio/sdk";
 import { toCanonicalError } from "@stokio/sdk";
 ```
 
+### Node-only exports (`pg_dump` gzip / rewrite)
+
+The default entry (`@stokio/sdk`) is safe for **browser and Next.js client bundles**. Helpers that use Node built-ins (`node:zlib`, etc.) are exported only from:
+
+```ts
+import { gunzipIfNeeded } from "@stokio/sdk/server";
+```
+
+Do **not** import `@stokio/sdk/server` from browser or shared client code.
+
 Multi-tenant contracts (login, branding) are documented in the Stokio product docs.
