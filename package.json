@@ -1,7 +1,7 @@
 {
-  "name": "@porto-sdk/sdk",
-  "version": "0.1.4",
-  "description": "Tipos e entidades compartilhados do sistema Porto (estoque, medicamentos, residentes, movimentações)",
+  "name": "@stokio/sdk",
+  "version": "0.4.2",
+  "description": "Shared TypeScript types and entities for Stokio (inventory, medicines, residents, movements).",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
