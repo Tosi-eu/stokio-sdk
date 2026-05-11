@@ -97,6 +97,14 @@ function firstStackLine(stack: string | null | undefined): string {
   return line.slice(0, 300);
 }
 
+export function redactSecretsInText(text: string): string {
+  return text
+    .replace(/\bBearer\s+[A-Za-z0-9._-]+\b/gi, "Bearer [REDACTED]")
+    .replace(/\bAuthorization\s*:\s*\S+/gi, "Authorization: [REDACTED]")
+    .replace(/\bX-API-Key\s*:\s*\S+/gi, "X-API-Key: [REDACTED]")
+    .replace(/\b(authToken|refreshToken)\s*=\s*[^\s;]+/gi, "$1=[REDACTED]");
+}
+
 export class StokioError extends Error {
   readonly code: string;
   readonly category: ErrorCategory;
@@ -176,13 +184,15 @@ export function toCanonicalError(
   err: unknown,
   defaults: ToCanonicalDefaults,
 ): CanonicalErrorPayload {
-  const messageRaw =
+  const messageRaw = redactSecretsInText(
     err instanceof Error
       ? err.message
       : typeof err === "string"
         ? err
-        : JSON.stringify(err);
-  const stack = err instanceof Error ? err.stack ?? null : null;
+        : JSON.stringify(err),
+  );
+  const stackRaw = err instanceof Error ? err.stack ?? null : null;
+  const stack = stackRaw ? redactSecretsInText(stackRaw) : null;
   const httpStatus = defaults.httpStatus ?? (isHttpLike(err) ? err.statusCode : null);
   const category =
     defaults.category ?? inferCategory(err, httpStatus);
