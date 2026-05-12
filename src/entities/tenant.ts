@@ -33,6 +33,7 @@ export type TenantProfile = {
   brandName: string | null;
   logoUrl: string | null;
   brandingUpdatedAt?: string | null;
+  lifecycleStatus?: "ONBOARDING" | "ACTIVE" | "CANCELLED";
 };
 
 export type TenantModulesConfig = {
@@ -63,6 +64,7 @@ export type TenantConfigResponse = {
   modules: TenantModulesConfig;
   modulesConfigured?: boolean;
   onboardingComplete?: boolean;
+  lifecycleStatus?: "ONBOARDING" | "ACTIVE" | "CANCELLED";
   uiDisplay?: TenantUiDisplay;
 };
 

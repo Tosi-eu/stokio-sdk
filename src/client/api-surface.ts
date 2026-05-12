@@ -551,7 +551,7 @@ export function buildStokioApi(http: StokioHttp) {
       }): Promise<RegisterUserResponse> =>
         http.post("/login/join-by-token", payload),
       resetPassword: (login: string, newPassword: string) =>
-        http.post("/login/reset-password", { login, newPassword }),
+        http.post("/login/forgot-password", { login, newPassword }),
       updateUser: (payload: Record<string, unknown>) => http.put("/login", payload),
       tenantsForEmail: (login: string) =>
         http.getAllowingNonOk<LoginTenantsForEmailResponse>(
@@ -567,6 +567,12 @@ export function buildStokioApi(http: StokioHttp) {
 
     tenant: {
       config: () => http.get<TenantConfigResponse>("/tenant/config"),
+      dismissOnboarding: () =>
+        http.post<{
+          tenantId: number;
+          tenant: TenantConfigResponse["tenant"];
+          alreadyComplete?: boolean;
+        }>("/tenant/onboarding/dismiss", {}),
       updateConfig: (modules: UpdateTenantModulesPayload) =>
         http.put<{ tenantId: number; modules: UpdateTenantModulesPayload }>(
           "/tenant/config",
