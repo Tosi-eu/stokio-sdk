@@ -33,6 +33,7 @@ export type TenantProfile = {
   brandName: string | null;
   logoUrl: string | null;
   brandingUpdatedAt?: string | null;
+  lifecycleStatus?: "ONBOARDING" | "ACTIVE" | "CANCELLED";
 };
 
 export type TenantModulesConfig = {
@@ -47,11 +48,14 @@ export type TenantUiDisplayCaselaSetor =
 export type TenantUiDisplayArmario = "numero" | "categoria";
 export type TenantUiDisplayGaveta = "numero" | "categoria";
 
+export type TenantUiDisplayDefaultReportFormat = "pdf" | "xlsx";
+
 export type TenantUiDisplay = {
   casela: TenantUiDisplayCasela;
   caselaSetor: TenantUiDisplayCaselaSetor;
   armario: TenantUiDisplayArmario;
   gaveta: TenantUiDisplayGaveta;
+  defaultReportFormat?: TenantUiDisplayDefaultReportFormat;
 };
 
 export type TenantConfigResponse = {
@@ -60,6 +64,7 @@ export type TenantConfigResponse = {
   modules: TenantModulesConfig;
   modulesConfigured?: boolean;
   onboardingComplete?: boolean;
+  lifecycleStatus?: "ONBOARDING" | "ACTIVE" | "CANCELLED";
   uiDisplay?: TenantUiDisplay;
 };
 

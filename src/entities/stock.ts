@@ -68,4 +68,5 @@ export type StockFilterType =
   | "nearMin"
   | "belowMin"
   | "expired"
-  | "expiringSoon";
+  | "expiringSoon"
+  | "noPrice";

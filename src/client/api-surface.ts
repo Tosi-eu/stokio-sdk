@@ -550,8 +550,17 @@ export function buildStokioApi(http: StokioHttp) {
         last_name: string;
       }): Promise<RegisterUserResponse> =>
         http.post("/login/join-by-token", payload),
-      resetPassword: (login: string, newPassword: string) =>
-        http.post("/login/reset-password", { login, newPassword }),
+      requestPasswordReset: (login: string) =>
+        http.post<{ ok: true }>("/login/forgot-password/request", { login }),
+      confirmPasswordReset: (
+        login: string,
+        token: string,
+        newPassword: string,
+      ) =>
+        http.post<{ id: number; login: string }>(
+          "/login/forgot-password/confirm",
+          { login, token, newPassword },
+        ),
       updateUser: (payload: Record<string, unknown>) => http.put("/login", payload),
       tenantsForEmail: (login: string) =>
         http.getAllowingNonOk<LoginTenantsForEmailResponse>(
@@ -567,6 +576,12 @@ export function buildStokioApi(http: StokioHttp) {
 
     tenant: {
       config: () => http.get<TenantConfigResponse>("/tenant/config"),
+      dismissOnboarding: () =>
+        http.post<{
+          tenantId: number;
+          tenant: TenantConfigResponse["tenant"];
+          alreadyComplete?: boolean;
+        }>("/tenant/onboarding/dismiss", {}),
       updateConfig: (modules: UpdateTenantModulesPayload) =>
         http.put<{ tenantId: number; modules: UpdateTenantModulesPayload }>(
           "/tenant/config",
@@ -832,9 +847,39 @@ export function buildStokioApi(http: StokioHttp) {
         }>("/admin/stock-history", { params }),
 
       exportCsvBlob: (queryParams: Record<string, string>) =>
-        http.get<Blob>(`/admin/export?${new URLSearchParams(queryParams).toString()}`, {
-          responseType: "blob",
-        }),
+        (async () => {
+          const type = String(queryParams.type ?? "").trim() || "export";
+          const createRes = await http.post<{
+            jobId: string;
+            accepted?: boolean;
+          }>("/relatorios/jobs", undefined, {
+            params: { ...queryParams, type, format: "csv" },
+          });
+
+          const jobId = String((createRes as any)?.jobId ?? "");
+          if (!jobId) throw new Error("Falha ao iniciar exportação (jobId vazio)");
+
+          const startedAt = Date.now();
+          for (;;) {
+            const j = await http.get<{ status?: string; error?: string | null }>(
+              `/relatorios/jobs/${encodeURIComponent(jobId)}`,
+            );
+            const s = String((j as any)?.status ?? "");
+            if (s === "succeeded") break;
+            if (s === "failed") {
+              throw new Error(String((j as any)?.error ?? "Falha ao gerar exportação"));
+            }
+            if (Date.now() - startedAt > 5 * 60_000) {
+              throw new Error("Geração demorando demais. Tente novamente.");
+            }
+            await new Promise((r) => setTimeout(r, 1500));
+          }
+
+          return http.get<Blob>(
+            `/relatorios/jobs/${encodeURIComponent(jobId)}/download`,
+            { responseType: "blob" },
+          );
+        })(),
     },
   };
 }

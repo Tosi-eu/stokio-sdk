@@ -45,6 +45,7 @@ export interface DashboardSummaryResponse {
     nearMin?: number;
     expired?: number;
     expiringSoon?: number;
+    noPrice?: number;
   };
   recentMovements?: RawDashboardMovement[];
   nonMovementProducts?: unknown[];

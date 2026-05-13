@@ -1,3 +1,12 @@
+export type TenantModuleDefinitionRow = {
+  key: string;
+  label: string;
+};
+
+export type TenantModuleCatalogResponse = {
+  modules: TenantModuleDefinitionRow[];
+};
+
 export type TenantConfigUpdateResponse = {
   tenantId: number;
   modules: UpdateTenantModulesPayload;
