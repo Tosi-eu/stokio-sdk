@@ -550,8 +550,17 @@ export function buildStokioApi(http: StokioHttp) {
         last_name: string;
       }): Promise<RegisterUserResponse> =>
         http.post("/login/join-by-token", payload),
-      resetPassword: (login: string, newPassword: string) =>
-        http.post("/login/forgot-password", { login, newPassword }),
+      requestPasswordReset: (login: string) =>
+        http.post<{ ok: true }>("/login/forgot-password/request", { login }),
+      confirmPasswordReset: (
+        login: string,
+        token: string,
+        newPassword: string,
+      ) =>
+        http.post<{ id: number; login: string }>(
+          "/login/forgot-password/confirm",
+          { login, token, newPassword },
+        ),
       updateUser: (payload: Record<string, unknown>) => http.put("/login", payload),
       tenantsForEmail: (login: string) =>
         http.getAllowingNonOk<LoginTenantsForEmailResponse>(
