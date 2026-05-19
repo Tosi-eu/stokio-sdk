@@ -344,7 +344,10 @@ export function buildStokioApi(http: StokioHttp) {
         http.post("/insumos", {
           nome,
           descricao: descricao ?? null,
-          estoque_minimo: estoque_minimo ?? 0,
+          estoque_minimo:
+            estoque_minimo != null && estoque_minimo > 0
+              ? estoque_minimo
+              : null,
           preco: preco ?? null,
         }),
     },
